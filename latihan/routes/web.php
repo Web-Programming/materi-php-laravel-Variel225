@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MhsApiController;
+use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\ProdiFakultas;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,3 +33,11 @@ Route::get('fakultas', function () {
       $fakultas = ['Fakultas Ilmu Komputer dan Rekayasa', 'Fakultas Ilmu Ekonomi'];
       return view('fakultas.index', compact('fakultas', 'kampus'));
 });
+
+Route::get('/materi/index', action: [MateriController::class, 'index']);
+
+Route::get('/materi/detail/{id}', action: [MateriController::class, 'detail']);
+
+Route::resource('prodi', ProdiController::class);
+
+Route::apiResource('api/mhs', MhsApiController::class);
