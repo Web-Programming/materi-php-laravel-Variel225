@@ -11,7 +11,7 @@ class MateriController extends Controller
      */
     public function index()
     {
-        return view ("prodi.index");
+        return view('materi.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class MateriController extends Controller
      */
     public function create()
     {
-        
+       
     }
 
     /**
@@ -35,7 +35,23 @@ class MateriController extends Controller
      */
     public function show(string $id)
     {
-        //
+         $materiList = [
+            1 => (object)[
+                'title' => 'Belajar Laravel',
+                'description' => 'Mengenal Laravel'
+            ],
+            2 => (object)[
+                'title' => 'Instalasi laravel',
+                'description' => 'Cara Menginstall laravel'
+            ],
+            3 => (object)[
+                'title' => 'Template',
+                'description' => 'Contoh Template'
+            ],
+        ];
+        
+        $materi = $materiList[$id];
+        return view('materi.detail', compact('materi'));
     }
 
     /**
@@ -43,7 +59,7 @@ class MateriController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -59,6 +75,6 @@ class MateriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }

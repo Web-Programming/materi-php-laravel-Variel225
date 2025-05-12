@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProdiController extends Controller
+class DosenController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('dosen.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class ProdiController extends Controller
      */
     public function create()
     {
-        echo "Ini halaman create Prodi";
+        
     }
 
     /**
@@ -35,7 +35,25 @@ class ProdiController extends Controller
      */
     public function show(string $id)
     {
-        echo "Ini detail prodi dengan id ". $id;
+        $dosenList = [
+            1 => (object)[
+                'nama' => 'Kabucha',
+                'program' => 'Sistem Informasi',
+                'status' => 'Tetap',
+                'tanggal_lahir' => '21-06-1989',
+                'tempat_lahir' => 'Korea'
+            ],
+            2 => (object)[
+                'nama' => 'Dokebara',
+                'program' => 'Informatika',
+                'status' => 'Kontrak',
+                'tanggal_lahir' => '04-10-1987',
+                'tempat_lahir' => 'Jepang'
+            ],
+        ];
+
+        $dosen = $dosenList[$id];
+        return view('dosen.detail', compact('dosen'));
     }
 
     /**
@@ -43,7 +61,7 @@ class ProdiController extends Controller
      */
     public function edit(string $id)
     {
-        echo "Ini form edit prodi dengan id ". $id;
+        
     }
 
     /**
@@ -59,6 +77,6 @@ class ProdiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
