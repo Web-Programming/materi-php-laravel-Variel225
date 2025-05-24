@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mahasiswa', function (Blueprint $table) {
-            $table::renameColumn('tempat_lahir', 'born_date');
-            $table::renameColumn('nama', 'nama_mahasiswa');
-            $table::text('alamat') ->after('tanggal_lahir');
+            $table->renameColumn('born_date', 'tanggal_lahir');
+            $table->renameColumn('nama', 'nama_mahasiswa');
+            $table->text('alamat')->after('tanggal_lahir');
         });
     }
 
@@ -24,9 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('mahasiswa', function (Blueprint $table) {
-            $table->renameColumn('tempat_lahir', 'born_date');
-            $table->renameColumn('nama', 'nama_mahasiswa');
-            $table->text('alamat')->after('tanggal_lahir');
+            $table->renameColumn('tanggal_lahir', 'born_date');
+            $table->renameColumn('nama_mahasiswa', 'nama');
+            $table->dropColumn('alamat');
         });
     }
 };

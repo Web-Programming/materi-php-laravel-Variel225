@@ -1,59 +1,65 @@
 <?php
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MhsApiController;
 use App\Http\Controllers\ProdiController;
-use App\Http\Controllers\ProdiFakultas;
-use App\Http\Controllers\DosenController;
-use App\Http\Controllers\FakultasController;
-use App\Http\Controllers\MahasiswaController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\CekLogin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [AuthController::class, 'login']);
+
+Route::get("/profil", function(){
+    return view("profil");
 });
 
-Route::get('/profil', function () {
-    return view('profil');
+Route::get("/berita/{id}/{title?}", function($id, $title = NULL){
+    return view("berita", ['id' => $id, 'title' => $title]);
 });
 
-Route::get('/berita/{id}/{title?}', function ($id,$title = NULL) {
-    return view('berita', ['id' => $id, 'title' => $title]);
+Route::get("/total/{bil1}/{bil2?}/{bil3?}", 
+    function($bil1, $bil2, $bil3 = 0){
+    return view("hasil", [
+        'total' => $bil1 + $bil2 + $bil3, 
+        'bil1' => $bil1, 
+        'bil2' => $bil2, 
+        'bil3' => $bil3
+    ]);
 });
 
-Route::get('hasil/{jumlah}/{angka1}/{angka2}/{angka3}', function ($angka1,$angka2,$angka3) {
-    return view('hasil', ['jumlah' => $angka1 + $angka2 + $angka3, 'angka1' => $angka1, 'angka2' => $angka2, 'angka3' => $angka3]);
-});
 
-Route::get('fakultas', function () {
-    // return view('fakultas.index', ['ilkom' => 'Fakultas Ilmu Komputer dan Rekayasa']);
-     // return view('fakultas.index', ['fakultas' => 'Fakultas Ilmu Komputer dan Rekayasa', 'Fakultas Ilmu Ekonomi']);
-      // return view('fakultas.index') -> with['fakultas' => 'Fakultas Ilmu Komputer dan Rekayasa', 'Fakultas Ilmu Ekonomi']);
-
-      $kampus = 'Universitas Multi Data Palembang';
-      // fakultas = [];
-      $fakultas = ['Fakultas Ilmu Komputer dan Rekayasa', 'Fakultas Ilmu Ekonomi'];
-      return view('fakultas.index', compact('fakultas', 'kampus'));
-});
-
-Route::get('/materi/index', action: [MateriController::class, 'index']);
-
-Route::get('/materi/detail/{id}', action: [MateriController::class, 'detail']);
-
-Route::resource('prodi', ProdiController::class);
-
+Route::get('/materi/index', [MateriController::class, 'index']);
+Route::get('/materi/detail/{id}', [MateriController::class, 'detail']);
 Route::apiResource('api/mhs', MhsApiController::class);
 
+//Authentication
+Route::get("/login", [AuthController::class, 'login'])->name('login');
+Route::post("/login", [AuthController::class, 'do_login']);
+Route::get("/register", [AuthController::class, 'register']);
+Route::post("/register", [AuthController::class, 'do_register']);
+Route::get("/logout", [AuthController::class, 'logout']);
 
-// Latihan Layout
-Route::resource('prodi', ProdiController::class);
-Route::resource('materi', MateriController::class);
-Route::resource('dosen', DosenController::class);
-Route::resource('mhs', MahasiswaController::class);
-Route::resource('fakultas', FakultasController::class);
+Route::group(['middleware' => ['auth']], function(){
+    Route::group(['middleware' => [CekLogin::class.':admin']], function(){
+        Route::get("/admin", [AdminController::class, 'index']);
+        Route::resource('prodi', ProdiController::class);
+        Route::resource('fakultas', FakultasController::class);
+    });
 
-Route::get('/master', function(){
-    return view('latihanLayout.master');
+    Route::group(['middleware' => [CekLogin::class.':dosen']], function(){
+        Route::get("/dosen", [UserController::class, 'materi.index']);
+        Route::get("/dosen", [UserController::class, 'index']);
+    });
+
+     Route::group(['middleware' => [CekLogin::class.':mhs']], function(){
+        Route::get("/mhs", [UserController::class, 'materi.index']);
+        Route::get("/mhs", [UserController::class, 'index']);
+    });
+
+    Route::group(['middleware' => [CekLogin::class.':user']], function(){
+        Route::get("/user", [UserController::class, 'index']);
+    });
 });

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\mahasiswa;
+use App\Models\Mahasiswa;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use DB;
@@ -17,46 +17,42 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        //User::factory()->create([
-        //   'name' => 'Test User',
-        //    'email' => 'test@example.com',
-        //]);
-
-        DB::table("users")->insert([
-            'nama' => Str::random(10),
-            'email' => Str::random(10). "@example.com",
+        //insert data user
+        DB::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10).'@example.com',
             'password' => Hash::make('password'),
         ]);
 
         //insert data mahasiswa menggunakan query builder
-        //DB::table('mahasiswa')->insert([
-        //   'npm' => "2428250032",
-        //    'nama_mahasiswa' => "Variel Axcelino White Jemus",
-        //    'born_date' => "Korea",
-        //    'tanggal_lahir' => "2006-01-01",
-        //    'alamat' => "Palembang",
-        //    'created_at' => date("y-m-d H:i:s")
-        //]);
+        // DB::table('mahasiswa')->insert(
+        //     [
+        //         'npm' => '2009250055',
+        //         'nama_mahasiswa' => 'Nur Rachmat',
+        //         'tempat_lahir' => 'Paris',
+        //         'tanggal_lahir' => '2000-01-01',
+        //         'alamat' => 'Palembang',
+        //         'created_at' => date("Y-m-d H:i:s")
+        //     ]
+        // );
 
-        //DB::table('mahasiswa')
-        //->where("npm", "2428250032")
-        //->update(["npm" => "2428250032"]);
+        // DB::table('mahasiswa')
+        //     ->where("npm", "2009250066")
+        //     ->update(["npm" => "200920066P"]);
 
-        mahasiswa::insert([
-             'npm' => "2428250032",
-            'nama_mahasiswa' => "Variel Axcelino White Jemus",
-            'born_date' => "Korea",
-            'tanggal_lahir' => "2006-01-01",
-            'alamat' => "Palembang",
-            'created_at' => date("y-m-d H:i:s")
-        ]);
+        // Mahasiswa::insert(
+        //     [
+        //         'npm' => '2009250011',
+        //         'nama_mahasiswa' => 'Nur Rachmat',
+        //         'tempat_lahir' => 'Mumbai',
+        //         'tanggal_lahir' => '2001-01-01',
+        //         'alamat' => 'Palembang',
+        //         'created_at' => date("Y-m-d H:i:s")
+        //     ]);
 
-        //retrive all data
-        mahasiswa::all();
-        mahasiswa::where('id', '<', 3)->get(); //select * from mahasiswa where id < 3
-
-        mahasiswa::select(['npm', 'nama'])->get(); //select npm,nama for mahasiswa
+        //retirve all data
+        Mahasiswa::all(); //select * from mahasiswa
+        Mahasiswa::where('id', '<', 3)->get(); //select * from mahasiswa where id < 3 
+        //Mahasiswa::select(['npm','nama'])->get(); //select npm, nama from mahasiswa 
     }
 }

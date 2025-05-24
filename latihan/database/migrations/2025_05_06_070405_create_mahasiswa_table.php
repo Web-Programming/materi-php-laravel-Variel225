@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->char('npm', 11);
+            $table->char('npm', 11)->unique();
             $table->string('nama', 150);
             $table->string('tempat_lahir', 100);
-            $table->datephp('tanggal_lahir'); //yyyy-mm-dd
+            $table->date('born_date'); //yyyy-mm-dd
             $table->timestamps();
         });
     }

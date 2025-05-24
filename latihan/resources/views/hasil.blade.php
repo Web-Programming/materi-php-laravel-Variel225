@@ -1,10 +1,9 @@
 <div>
-<h4>Jumlah Bilangan</h4>
-      <?php echo $angka1;
-      echo " + "; ?>
-      <?php echo $angka2;
-      echo " + ";
-      echo $angka3; 
-      echo " = ";
-      echo $jumlah; ?>
+    <h1>Hasil Penjumlahan<h1>
+    {{ $bil1 }} + {{ $bil2 }} + {{ $bil3 }} = {{ $total }}
+    <br/>
+    <br/>
+    @if ($bil3 == 0)
+        Bilangan ke 3 tidak diisi
+    @endif
 </div>
