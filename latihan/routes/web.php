@@ -45,21 +45,26 @@ Route::get("/logout", [AuthController::class, 'logout']);
 Route::group(['middleware' => ['auth']], function(){
     Route::group(['middleware' => [CekLogin::class.':admin']], function(){
         Route::get("/admin", [AdminController::class, 'index']);
+        Route::get("/admin", [AdminController::class, 'materi.index']);
         Route::resource('prodi', ProdiController::class);
         Route::resource('fakultas', FakultasController::class);
     });
 
     Route::group(['middleware' => [CekLogin::class.':dosen']], function(){
-        Route::get("/dosen", [UserController::class, 'materi.index']);
-        Route::get("/dosen", [UserController::class, 'index']);
+        Route::get("/dosen", [DosenController::class, 'materi.index']);
+        Route::get("/dosen", [DosenController::class, 'index']);
     });
 
      Route::group(['middleware' => [CekLogin::class.':mhs']], function(){
-        Route::get("/mhs", [UserController::class, 'materi.index']);
-        Route::get("/mhs", [UserController::class, 'index']);
+        Route::get("/mahasiswa", [MahasiswaController::class, 'materi.index']);
+        Route::get("/mahasiswa", [MahasiswaController::class, 'index']);
     });
 
     Route::group(['middleware' => [CekLogin::class.':user']], function(){
         Route::get("/user", [UserController::class, 'index']);
     });
+    
+    Route::get('/admin', function () {
+    // ...
+    })->middleware('ceklogin:admin');
 });
