@@ -20,6 +20,10 @@ class AuthController extends Controller
                 return redirect()->intended('admin');
             }else if($user->level == 'user'){
                 return redirect()->intended('user');
+            }  else if($user->level == 'dosen'){
+                return redirect()->intended('userdosen');
+            } else if($user->level == 'mahasiswa'){
+                return redirect()->intended('usermahasiswa');
             }
         }
 
@@ -43,6 +47,10 @@ class AuthController extends Controller
                 return redirect()->intended('admin');
             }else if($user->level == 'user'){
                 return redirect()->intended('user');
+            } else if($user->level == 'dosen'){
+                return redirect()->intended('userdosen');
+            } else if($user->level == 'mahasiswa'){
+                return redirect()->intended('usermahasiswa');
             }
             return redirect()->intended('/');
         }

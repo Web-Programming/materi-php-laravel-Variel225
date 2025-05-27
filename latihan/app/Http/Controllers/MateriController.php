@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class MateriController extends Controller
@@ -11,7 +13,8 @@ class MateriController extends Controller
      */
     public function index()
     {
-        return view("materi.index");
+           $listmateri = Materi::all();
+        return view('materi.index', ['listmateri' => $listmateri]);
     }
 
     /**
@@ -19,7 +22,7 @@ class MateriController extends Controller
      */
     public function create()
     {
-        //
+        return view('materi.create');
     }
 
     /**
@@ -27,7 +30,12 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nama' => 'required|min:5|max:50',
+            'deskripsi' => 'required|min:5|max:255',
+        ]);
+        Materi::create($data);
+        return redirect()->route('materi.index')->with('status', 'Materi berhasil disimpan!');
     }
 
     /**
@@ -35,7 +43,11 @@ class MateriController extends Controller
      */
     public function show(string $id)
     {
-        //
+         $materi = Materi::find($id);
+        if (!isset($materi->id)) {
+            return redirect()->route('materi.index')->with('failed', 'Materi tidak ditemukan!');
+        }
+        return view('materi.edit', compact('materi'));
     }
 
     /**

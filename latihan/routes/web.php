@@ -7,6 +7,7 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MhsApiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DosenController;
 use App\Http\Middleware\CekLogin;
 use Illuminate\Support\Facades\Route;
 
